@@ -6,7 +6,7 @@ pub struct DebugPlugin;
 impl Plugin for DebugPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugin(WorldInspectorPlugin::default());
-        app.add_plugin(LogDiagnosticsPlugin::default());
-        app.add_plugin(FrameTimeDiagnosticsPlugin::default());
+        //app.add_plugin(LogDiagnosticsPlugin::default());
+        //app.add_plugin(FrameTimeDiagnosticsPlugin::default());
     }
 }
