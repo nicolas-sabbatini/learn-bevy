@@ -7,10 +7,12 @@ mod debug_plugin;
 use bevy::{prelude::*, window::WindowResolution};
 use camera::CameraPlugin;
 use config::*;
+use enemy::EnemyPlugin;
 use player::PlayerPlugin;
 
 mod camera;
 mod config;
+mod enemy;
 mod player;
 
 fn main() {
@@ -30,7 +32,9 @@ fn main() {
     #[cfg(debug_assertions)]
     app.add_plugin(DebugPlugin);
 
-    app.add_plugin(CameraPlugin).add_plugin(PlayerPlugin);
+    app.add_plugin(CameraPlugin)
+        .add_plugin(PlayerPlugin)
+        .add_plugin(EnemyPlugin);
 
     app.run();
 }

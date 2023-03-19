@@ -2,9 +2,10 @@ use bevy::prelude::*;
 
 use crate::config::{WIN_HEIGHT, WIN_WIDTH};
 
+// From where to calculate the rotation
 const ROTATION_ANCHOR: Vec2 = Vec2::Y;
 
-const PLAYER_START_XYZ: (f32, f32, f32) = (0.0, 0.0, 100.0);
+const PLAYER_SPAWN_XYZ: (f32, f32, f32) = (0.0, 0.0, 100.0);
 const PLAYER_DRAG_FACTOR: f32 = 0.1;
 const PLAYER_SPEED: f32 = 250.0;
 const PLAYER_COLOR: Color = Color::rgb(0.0, 0.67, 1.0);
@@ -47,9 +48,9 @@ fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
         sprite: SpriteBundle {
             texture: asset_server.load("sprites/ship_E.png"),
             transform: Transform::from_xyz(
-                PLAYER_START_XYZ.0,
-                PLAYER_START_XYZ.1,
-                PLAYER_START_XYZ.2,
+                PLAYER_SPAWN_XYZ.0,
+                PLAYER_SPAWN_XYZ.1,
+                PLAYER_SPAWN_XYZ.2,
             ),
             sprite: Sprite {
                 color: PLAYER_COLOR,
