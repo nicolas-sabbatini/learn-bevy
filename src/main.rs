@@ -1,16 +1,18 @@
-// Load and use this module on debug
-#[cfg(debug_assertions)]
-use debug_plugin::DebugPlugin;
-#[cfg(debug_assertions)]
-mod debug_plugin;
-
 use bevy::{prelude::*, window::WindowResolution};
 use camera::CameraPlugin;
+use commons::CommonsPlugin;
 use config::*;
 use enemy::EnemyPlugin;
 use player::PlayerPlugin;
 
+// Load and use this module on debug
+#[cfg(debug_assertions)]
+mod debug_plugin;
+#[cfg(debug_assertions)]
+use debug_plugin::DebugPlugin;
+
 mod camera;
+mod commons;
 mod config;
 mod enemy;
 mod player;
@@ -34,7 +36,8 @@ fn main() {
 
     app.add_plugin(CameraPlugin)
         .add_plugin(PlayerPlugin)
-        .add_plugin(EnemyPlugin);
+        .add_plugin(EnemyPlugin)
+        .add_plugin(CommonsPlugin);
 
     app.run();
 }
