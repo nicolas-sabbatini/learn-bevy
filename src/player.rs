@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
-use crate::commons::{EntitySize, Rotation, Velocity};
+use crate::{
+    commons::{EntitySize, Rotation, Velocity},
+    system_sets::GameSet,
+};
 
 const PLAYER_SPAWN_XYZ: (f32, f32, f32) = (0.0, 0.0, 100.0);
 const PLAYER_DRAG_FACTOR: f32 = 0.1;
@@ -12,7 +15,7 @@ pub struct PlayerPlugin;
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app.add_startup_system(spawn_player)
-            .add_system(handle_player_input);
+            .add_system(handle_player_input.in_set(GameSet::InputHandle));
     }
 }
 

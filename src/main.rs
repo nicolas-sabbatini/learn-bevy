@@ -4,6 +4,7 @@ use commons::CommonsPlugin;
 use config::*;
 use enemy::EnemyPlugin;
 use player::PlayerPlugin;
+use system_sets::SystemSetPlugin;
 
 // Load and use this module on debug
 #[cfg(debug_assertions)]
@@ -16,6 +17,7 @@ mod commons;
 mod config;
 mod enemy;
 mod player;
+mod system_sets;
 
 fn main() {
     let mut app = App::new();
@@ -37,7 +39,8 @@ fn main() {
     app.add_plugin(CameraPlugin)
         .add_plugin(PlayerPlugin)
         .add_plugin(EnemyPlugin)
-        .add_plugin(CommonsPlugin);
+        .add_plugin(CommonsPlugin)
+        .add_plugin(SystemSetPlugin);
 
     app.run();
 }

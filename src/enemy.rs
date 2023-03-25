@@ -9,7 +9,7 @@ use crate::{
 const ENEMY_COLOR: Color = Color::rgb(0.63, 0.41, 0.22);
 const ENEMY_SPRITE_SIZE: f32 = 64.0;
 const ENEMY_Z_POSITION: f32 = 10.0;
-const ENEMY_SPEED: f32 = 250.0;
+const ENEMY_SPEED: f32 = 200.0;
 
 pub struct EnemyPlugin;
 impl Plugin for EnemyPlugin {

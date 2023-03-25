@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
-use crate::config::{WIN_HEIGHT, WIN_WIDTH};
+use crate::{
+    config::{WIN_HEIGHT, WIN_WIDTH},
+    system_sets::GameSet,
+};
 
 // From where to calculate the rotation
 const ROTATION_ANCHOR: Vec2 = Vec2::Y;
@@ -17,7 +20,7 @@ pub struct EntitySize(pub f32);
 pub struct CommonsPlugin;
 impl Plugin for CommonsPlugin {
     fn build(&self, app: &mut App) {
-        app.add_system(warp_entity).add_system(move_entity);
+        app.add_systems((move_entity, warp_entity).chain().in_set(GameSet::Movement));
     }
 }
 
