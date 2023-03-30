@@ -36,7 +36,9 @@ fn spawn_enemy(mut commands: Commands, asset_server: Res<AssetServer>) {
     for i in 0..5 {
         let rand_x = (random::<f32>() * WIN_WIDTH) - (WIN_WIDTH / 2.0);
         let rand_y = (random::<f32>() * WIN_HEIGHT) - (WIN_HEIGHT / 2.0);
-        let rand_velocity = Vec2::new(random::<f32>(), random::<f32>()).normalize() * ENEMY_SPEED;
+        let rand_velocity = Vec2::new(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0)
+            .normalize()
+            * ENEMY_SPEED;
         commands.spawn(EnemyBundle {
             tag: Enemy,
             name: Name::new(format!("Enemy {i}")),
