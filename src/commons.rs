@@ -8,14 +8,17 @@ use crate::{
 // From where to calculate the rotation
 const ROTATION_ANCHOR: Vec2 = Vec2::Y;
 
-#[derive(Debug, Component)]
+#[derive(Debug, Component, Clone, Copy)]
 pub struct Velocity(pub Vec2);
 
-#[derive(Debug, Component)]
+#[derive(Debug, Component, Clone, Copy)]
 pub struct Rotation(pub f32);
 
 #[derive(Debug, Component)]
 pub struct EntitySize(pub f32);
+
+#[derive(Debug, Component)]
+pub struct Hp(pub u32);
 
 pub struct CommonsPlugin;
 impl Plugin for CommonsPlugin {

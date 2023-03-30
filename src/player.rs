@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
+    bullet::{Bullet, BulletBundle},
     commons::{EntitySize, Rotation, Velocity},
     system_sets::GameSet,
 };
@@ -15,7 +16,8 @@ pub struct PlayerPlugin;
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app.add_startup_system(spawn_player)
-            .add_system(handle_player_input.in_set(GameSet::InputHandle));
+            .add_system(handle_player_input.in_set(GameSet::InputHandle))
+            .add_system(handle_player_shoot);
     }
 }
 
@@ -82,4 +84,35 @@ fn handle_player_input(
 
     let stearing_vector = target_speed - velocity.0;
     velocity.0 += stearing_vector * PLAYER_DRAG_FACTOR;
+}
+
+fn handle_player_shoot(
+    keyboard_input: Res<Input<KeyCode>>,
+    query: Query<(&Velocity, &Transform, &Rotation), With<Player>>,
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+) {
+    let (velocity, transform, rotation) = query
+        .get_single()
+        .expect("Can't get player, in shoot player system");
+
+    // When the user press space spawn a bullet
+    if keyboard_input.just_pressed(KeyCode::Space) {
+        commands.spawn(BulletBundle {
+            tag: Bullet,
+            name: Name::new("Bullet"),
+            velocity: *velocity,
+            rotation: *rotation,
+            entity_size: EntitySize(PLAYER_SPRITE_SIZE),
+            sprite: SpriteBundle {
+                texture: asset_server.load("sprites/star_large.png"),
+                transform: *transform,
+                sprite: Sprite {
+                    color: PLAYER_COLOR,
+                    ..default()
+                },
+                ..default()
+            },
+        });
+    }
 }

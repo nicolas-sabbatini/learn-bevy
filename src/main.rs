@@ -12,6 +12,7 @@ mod debug_plugin;
 #[cfg(debug_assertions)]
 use debug_plugin::DebugPlugin;
 
+mod bullet;
 mod camera;
 mod commons;
 mod config;
