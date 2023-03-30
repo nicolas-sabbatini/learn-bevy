@@ -14,7 +14,8 @@ const ENEMY_SPEED: f32 = 200.0;
 pub struct EnemyPlugin;
 impl Plugin for EnemyPlugin {
     fn build(&self, app: &mut App) {
-        app.add_startup_system(spawn_enemy);
+        app.add_startup_system(spawn_enemy)
+            .add_system(enemy_on_enemy_colition);
     }
 }
 
@@ -33,7 +34,7 @@ struct EnemyBundle {
 }
 
 fn spawn_enemy(mut commands: Commands, asset_server: Res<AssetServer>) {
-    for i in 0..5 {
+    for i in 0..10 {
         let rand_x = (random::<f32>() * WIN_WIDTH) - (WIN_WIDTH / 2.0);
         let rand_y = (random::<f32>() * WIN_HEIGHT) - (WIN_HEIGHT / 2.0);
         let rand_velocity = Vec2::new(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0)
@@ -55,5 +56,22 @@ fn spawn_enemy(mut commands: Commands, asset_server: Res<AssetServer>) {
                 ..default()
             },
         });
+    }
+}
+
+fn enemy_on_enemy_colition(mut query: Query<(&Transform, &mut Velocity), With<Enemy>>) {
+    let mut query = query.iter_combinations_mut();
+    while let Some([(t1, mut v1), (t2, mut v2)]) = query.fetch_next() {
+        let collition_vector = t1.translation.truncate() - t2.translation.truncate();
+
+        if collition_vector.length() < (ENEMY_SPRITE_SIZE / 2.0) + 1.0 {
+            let collition_vector_normalized = collition_vector.normalize();
+            let v1_cvn = v1.0.dot(collition_vector_normalized);
+            let v2_cvn = v2.0.dot(collition_vector_normalized);
+            let new_vel_escalar = v1_cvn - v2_cvn;
+
+            v1.0 -= collition_vector_normalized * new_vel_escalar;
+            v2.0 += collition_vector_normalized * new_vel_escalar;
+        }
     }
 }
