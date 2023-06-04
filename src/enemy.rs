@@ -59,12 +59,12 @@ fn spawn_enemy(mut commands: Commands, asset_server: Res<AssetServer>) {
     }
 }
 
-fn enemy_on_enemy_colition(mut query: Query<(&Transform, &mut Velocity), With<Enemy>>) {
+fn enemy_on_enemy_colition(mut query: Query<(&mut Transform, &mut Velocity), With<Enemy>>) {
     let mut query = query.iter_combinations_mut();
-    while let Some([(t1, mut v1), (t2, mut v2)]) = query.fetch_next() {
+    while let Some([(mut t1, mut v1), (mut t2, mut v2)]) = query.fetch_next() {
         let collition_vector = t1.translation.truncate() - t2.translation.truncate();
 
-        if collition_vector.length() < (ENEMY_SPRITE_SIZE / 2.0) + 1.0 {
+        if collition_vector.length() < (ENEMY_SPRITE_SIZE / 2.0) + 2.5 {
             let collition_vector_normalized = collition_vector.normalize();
             let v1_cvn = v1.0.dot(collition_vector_normalized);
             let v2_cvn = v2.0.dot(collition_vector_normalized);
@@ -72,6 +72,8 @@ fn enemy_on_enemy_colition(mut query: Query<(&Transform, &mut Velocity), With<En
 
             v1.0 -= collition_vector_normalized * new_vel_escalar;
             v2.0 += collition_vector_normalized * new_vel_escalar;
+            t1.translation += collition_vector_normalized.extend(0.0);
+            t2.translation -= collition_vector_normalized.extend(0.0);
         }
     }
 }
